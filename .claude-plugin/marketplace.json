@@ -1,0 +1,18 @@
+{
+  "name": "kyrexi",
+  "description": "Kyrexi Aesthetics: an audience-first, studio-level website design skill for Claude Code",
+  "owner": { "name": "adi-mauryaji", "url": "https://github.com/adi-mauryaji" },
+  "plugins": [
+    {
+      "name": "kyrexi-aesthetics",
+      "source": "./skill",
+      "description": "Designs and builds award-level landing pages, marketing sites and portfolios for a specific audience: feeling brief, three directions to choose from, motion system, asset brief, and checks for accessibility, truth and dark patterns.",
+      "category": "design",
+      "tags": ["design", "web-design", "landing-page", "motion", "accessibility"],
+      "keywords": ["design", "aesthetics", "web design", "landing page", "portfolio", "gsap", "awwwards", "accessibility", "ethics"],
+      "homepage": "https://github.com/adi-mauryaji/Kyrexi-makes-it-aesthetics",
+      "repository": "https://github.com/adi-mauryaji/Kyrexi-makes-it-aesthetics",
+      "license": "Apache-2.0 AND CC-BY-4.0"
+    }
+  ]
+}
