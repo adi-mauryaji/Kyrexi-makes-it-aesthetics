@@ -6,7 +6,8 @@ An Agent Skill that designs websites the way a studio does: it finds the feeling
 
 For landing pages, marketing sites and portfolios, in Claude Code or any agent that reads [Agent Skills](https://agentskills.io).
 
-<!-- maintainers: add a short demo GIF here (brief → three directions → chosen site in motion), made from a fictional brief -->
+<p align="center"><img src=".github/demo.gif" width="640" alt="Demo: a brief for a fictional clothing label, three first-screen directions with the third one chosen, then the finished site scrolling with motion: a loupe over cloth, Latin words lighting up one by one, photos sliding sideways and old-money clichés crossed out in red pencil."></p>
+<p align="center"><sub>Brief → three directions → the chosen site. Demo brand Apex-Imperium is fictional; its photos and videos are AI-generated.</sub></p>
 
 ## What it does
 
@@ -77,6 +78,7 @@ A lean panel of role cards (lead designer, devil's advocate, accessibility, ethi
 | `skill/kyrexi-aesthetics/` | the skill: `SKILL.md`, `references/` (art direction, motion, recipes, evidence, panel cards, guards), `scripts/` (verify, motion, palette, contrast, claims, memory) |
 | `skill/.claude-plugin/`, `.claude-plugin/` | Claude Code plugin and marketplace manifests |
 | `skills.sh.json` | tells `npx skills` where the skill lives |
+| `.github/demo.gif` | the demo above |
 
 ## Status
 
