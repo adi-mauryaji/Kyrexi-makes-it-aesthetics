@@ -86,4 +86,6 @@ Version 0.2.0. The skill has been used on concept sites during development; feed
 
 ## License
 
+Copyright 2026 adi-mauryaji.
+
 `SKILL.md` and scripts: Apache-2.0 (`LICENSE`). Reference content: CC BY 4.0 (`LICENSE-CONTENT`).
