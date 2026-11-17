@@ -2,6 +2,13 @@
 
 Fill this at intake. Every value carries a **basis** (stated by the user, inferred from the project or brief, or assumed) and a **confidence** (high, medium, low). Low-confidence values that change major decisions become questions for the user.
 
+## The one intake question (step 1)
+Read the project first (files, existing site, brand files, an assets folder, links), so the question only asks what you could not find. Ask it once, in the user's language, with a default:
+
+> Before I design, two quick things. **1. Your idea:** do you have a direction, references or sites you like? **2. Your assets:** do you have a logo, brand colours or fonts, photos, video or 3D I should use? (I found: <what the project already has>.) If not, say "go ahead": I will choose the direction myself, and after you pick one of three designs I will tell you exactly which photos and videos it needs and how to get them.
+
+Record the answers in `references` and `assets available` below; "go ahead" means work from the brief and the defaults.
+
 Demographic research describes group averages that explain a small share of individual preference. Treat any group-based adjustment as a starting value the panel may override with a stated reason.
 
 ## Fields

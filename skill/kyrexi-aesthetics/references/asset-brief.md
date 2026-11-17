@@ -1,6 +1,12 @@
 # Asset brief
 
-When the design uses photos, video or 3D that the user has not supplied, write `design/asset-brief.md` (next to the blueprint). The developer hands it to the client, and the client's photographer, videographer or 3D artist produces the assets from it. The skill never invents these assets; it specifies them so precisely that the result fits the design. Write it in the language the client reads (keep technical terms in English).
+Plan the assets right after the person chooses a direction (step 3): only then is it clear which photos, video or 3D the page needs. List the slots, then ask how they will come, with **(c)** as the default:
+
+- **(a) The client's own files or a shoot.** Write `design/asset-brief.md` (next to the blueprint) with sections 1–8 below. The developer hands it to the client, and the client's photographer, videographer or 3D artist produces the assets from it. Also make an HTML copy, and a PDF through the browser's print when a browser is available, so it can be sent as one file. Open it with a summary table (slot, what, where on the page, priority, how many) and close it with a crop guide for each shape.
+- **(b) An image or video tool the user has** (the cost is theirs): give one copy-ready prompt per slot (section 9), in the chat or as `design/ai-prompts.md`, as the user prefers.
+- **(c) Neither yet:** build with stand-ins (section 10) and keep the brief ready for later.
+
+The skill never invents these assets; it specifies them so precisely that the result fits the design. Write the brief in the language the client reads (keep technical terms in English).
 
 ## 1. Brief header
 - Project, page, art-direction concept in one sentence, palette (hex) and mood in five words.
@@ -57,5 +63,19 @@ glTF 2.0 binary (`.glb`), real-world scale, origin at the base centre, under abo
 - No music, or music licensed for web use.
 - The client owns or has a licence for web use of every file; stock or AI-generated assets are named as such in the handover and never presented as the business's own people, place or product.
 
-## 8. Until assets arrive
-Build each slot with a stand-in (`art-direction.md` section 5) and list the slot IDs in the handover, so swapping in the real file changes nothing else.
+## 8. Production notes worth stating
+- India and other 50 Hz countries: shoot video at 25 fps with a 1/50 s shutter under mains lighting, or the lights flicker.
+- Ask for a contact sheet of selects first, then finals; state what retouching may change (dust, exposure) and what it may not (the product's colour or pattern, bodies, adding text or logos).
+
+## 9. Prompts for an image or video tool (route b)
+One block per slot, each self-contained, so the user can copy it as is:
+- **Header:** slot ID and name · **IMAGE** or **VIDEO** · shape (3:2, 4:5, 16:9, 9:16) · length for video · where it goes on the page.
+- **Prompt:** medium and shot type, subject and action, wardrobe or material, place, light, lens and distance, framing and the safe area, colour and grain, then what must not appear (text, logos, real people's likeness). Describe an original, non-famous person; never name a real person, brand or another site's images.
+- **Negative prompt:** a separate block, used only if the tool has that field.
+- **Checks:** what to look at before accepting it (hands, warped patterns, invented letters, a blank area that must stay blank).
+- **Order:** make the images first, then each video from its image (image-to-video), so faces, clothes and light match.
+- **Labelling:** every generated file is named "AI-generated" in the handover and on the page (a footer line is enough); never present it as the business's own people, place or product. Leave a tool's visible provenance mark in place.
+
+## 10. Until assets arrive, and when they do
+- Until then, build each slot with a stand-in (`art-direction.md` section 5) and list the slot IDs in the handover, so swapping in the real file changes nothing else.
+- When files arrive, check each against its block (subject, shape, resolution, stray text or logos, a different person than asked), then convert for the web: images to WebP or AVIF at the largest displayed size × 2 (more for anything zoomed), videos without audio as WebM plus MP4 with a poster frame, loops cross-faded at the seam, crops fitted to the slot. Swap them in by slot ID, re-run `verify.mjs`, and report what still differs from the brief.

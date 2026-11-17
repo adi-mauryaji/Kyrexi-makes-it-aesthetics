@@ -4,7 +4,7 @@ description: Designs and builds gallery-quality websites for a specific audience
 license: Apache-2.0 for SKILL.md and scripts; CC-BY-4.0 for references
 compatibility: Any agent that reads Agent Skills. Sub-agents and scripts are optional; every step has a single-context, no-script path.
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
   evidence-schema-version: "1"
 ---
 
@@ -30,16 +30,16 @@ These outrank every other consideration, including the user's taste and the pane
 
 ## 2. Workflow
 
-Design first, guard second. Show the user the profile and the three directions (steps 1–2) and let them choose before building, unless they asked you not to stop.
+Design first, guard second. Stop for the person at most three times, each time with a default they can accept: one question at intake (step 1), the choice of direction (step 2), and how the photos and video will come (step 3). If they asked you not to stop, take the defaults and say which.
 
-### Step 1 · Intake → profile
-Read `references/profile.md`. Fill every field from what the user said, the project and the brief, each marked **stated**, **inferred** or **assumed** with a confidence. Include the level (Clean or Studio), the assets the user has, and any reference sites. Ask only about fields that are unknown and decision-changing. Never ask about race.
+### Step 1 · Read the project, ask once, then profile
+First read what already exists: the project's files (an existing site, brand files, an `assets` or `images` folder, README, copy) and any links or references the user gave. Then ask one short question with defaults (template in `references/profile.md`): do they have an idea or references in mind, and which assets they have (logo, brand colours and fonts, photos, video, 3D), or should you work from the brief alone? If they have nothing or say go ahead, continue with the defaults. Then read `references/profile.md` and fill every field from what they said, the project and the brief, each marked **stated**, **inferred** or **assumed** with a confidence. Include the level (Clean or Studio). Ask only about fields that are unknown and decision-changing. Never ask about race.
 
 ### Step 2 · Art direction
 Read `references/art-direction.md` and `references/evidence/taste.md`, and the taste memory if it exists (`scripts/memory.py show`). Choose the level and write the feeling brief (the offering, the visitor's moment, the feeling the first screen must create; art-direction section 3b), then explore three directions that differ in concept, mechanic and visual language; prototype only the first screen of each, score them with the award score, and let the user choose (art-direction section 2). For the chosen direction set the visual language: type with character, palette from the subject, ornament and texture, illustration fidelity, an imagery plan for every section, a motion signature and a site-wide motion system (`references/motion-craft.md`, `references/recipes.md`). Look up evidence only for the decisions it covers (colour, type, motion, audience files in section 4); `references/evidence-schema.md` explains grades.
 
-### Step 3 · Asset brief
-If the design uses photos, video or 3D the user has not supplied, write `design/asset-brief.md` with `references/asset-brief.md`: one detailed block per slot (subject, angle, lens, movement, light, colour, crop, technical specs, phone version, rights). The developer hands it to the client.
+### Step 3 · Asset plan (right after the choice)
+Now that the direction is chosen, list the photos, video and 3D it needs, slot by slot, and ask how they will come (`references/asset-brief.md`): **(a)** the client's own files or a shoot: write `design/asset-brief.md` (and an HTML or PDF copy when you can) for the developer to hand to the client's photographer or videographer: one detailed block per slot (subject, angle, lens, movement, light, colour, crop, technical specs, phone version, rights); **(b)** an image or video tool the user has: give one copy-ready prompt per slot, marked IMAGE or VIDEO, with shape, negative prompt and checks; **(c)** neither yet. Do not wait for the files: build with stand-ins (art-direction section 5) and swap them in by slot ID when they arrive.
 
 ### Step 4 · Blueprint
 Write `design/blueprint.md` with `references/blueprint-template.md`: art direction, tokens, layout, motion, asset slots, ethics check and a decision ledger (value, reason, rule IDs or "craft judgement").

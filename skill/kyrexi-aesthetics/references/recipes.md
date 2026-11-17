@@ -1,13 +1,29 @@
 # Recipes
 
-Starting points for the techniques award sites use, written for this skill (not copied from any site or tutorial). Adapt them to the concept; never ship one only because it is here. Each recipe keeps the floors: content is complete without JavaScript and under reduced motion, only transform and opacity move during scroll (clip-path, background and stroke changes repaint: keep them to a few elements at once), and the page stays fast on a mid-range phone. Check every result with `verify.mjs --motion`.
+Starting points for the techniques award sites use, written for this skill (not copied from any site or tutorial). Adapt them to the concept; never ship one only because it is here. Each recipe keeps the floors: content is complete without JavaScript and with motion off (`html.motion` absent: the device asks for less motion and the visitor has not turned it on, recipe 0), only transform and opacity move during scroll (clip-path, background and stroke changes repaint: keep them to a few elements at once), and the page stays fast on a mid-range phone. Check every result with `verify.mjs --motion`.
 
 Libraries: GSAP with ScrollTrigger and SplitText (GSAP Standard "No Charge" licence, free including commercial use), Lenis (MIT), Three.js (MIT). Save them as local files or pin exact CDN versions; load them after the core page.
 
-## 0. Boot: motion only when allowed
+## 0. Boot: motion only when allowed, with a switch
 ```html
-<script>document.documentElement.classList.add('js');</script>
+<!-- in <head>: the device decides first; a choice made on this site (the switch) overrides it -->
+<script>(function (d) {
+  d.classList.add('js');
+  var o = null; try { o = localStorage.getItem('motion'); } catch (e) {}
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (o === 'on' || (!reduce && o !== 'off')) d.classList.add('motion');
+  else if (reduce && !o) d.classList.add('motion-asked-off');     // shows the "turn it on" line
+})(document.documentElement);</script>
 <script type="module" src="motion.js"></script>
+```
+```html
+<!-- near the first screen, and in the footer -->
+<p class="motion-note">Motion is off because your device asks for less motion. <button type="button" data-motion="on">Turn it on</button></p>
+<button type="button" data-motion="toggle">Motion: off</button>
+```
+```css
+.motion-note { display: none; }
+html.motion-asked-off .motion-note { display: block; }
 ```
 ```js
 // motion.js
@@ -15,21 +31,24 @@ import { gsap } from './vendor/gsap/index.js';
 import { ScrollTrigger } from './vendor/gsap/ScrollTrigger.js';
 import { SplitText } from './vendor/gsap/SplitText.js';
 import Lenis from './vendor/lenis.mjs';
-gsap.registerPlugin(ScrollTrigger, SplitText);
 
-const mm = gsap.matchMedia();
-mm.add('(prefers-reduced-motion: no-preference)', () => {
-  document.documentElement.classList.add('motion');           // CSS hides start states only under .motion
+const root = document.documentElement;
+const on = root.classList.contains('motion');
+const set = (v) => { try { localStorage.setItem('motion', v); } catch (e) {} location.reload(); };
+const toggle = document.querySelector('[data-motion="toggle"]');
+if (toggle) { toggle.textContent = `Motion: ${on ? 'on' : 'off'}`; toggle.setAttribute('aria-pressed', String(on)); toggle.onclick = () => set(on ? 'off' : 'on'); }
+document.querySelector('[data-motion="on"]')?.addEventListener('click', () => set('on'));
+
+if (on) {
+  gsap.registerPlugin(ScrollTrigger, SplitText);
   const lenis = new Lenis({ autoRaf: false });                  // smooth wheel scrolling; touch stays native
   lenis.on('scroll', ScrollTrigger.update);
-  const raf = (t) => lenis.raf(t * 1000);
-  gsap.ticker.add(raf);
+  gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
   // ...recipes below run here...
-  return () => { gsap.ticker.remove(raf); lenis.destroy(); document.documentElement.classList.remove('motion'); };
-});
+}
 ```
-`gsap.matchMedia` reverts every animation if the visitor turns reduced motion on mid-visit. Start states live in CSS under `html.motion`, so without JavaScript the page shows end states.
+Start states live in CSS under `html.motion` (CSS-only intros too), so without JavaScript, or with motion off, the page shows end states. The switch reloads the page, so nothing has to be reverted mid-visit (`motion-craft.md` section 5).
 
 ## 1. Masked line reveal for headings
 ```js
@@ -66,7 +85,7 @@ Check text contrast against every flood colour with `contrast.py`.
 
 ## 3. Parallax drift (large images and ornaments)
 ```js
-mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+gsap.matchMedia().add('(min-width: 768px)', () => {   // inside `if (on)` (recipe 0)
   document.querySelectorAll('[data-drift]').forEach((el) => gsap.to(el, {
     yPercent: -Number(el.dataset.drift || 10), ease: 'none',
     scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
@@ -101,7 +120,7 @@ html.motion .hseq__track { display: flex; width: max-content; gap: 4vw; }
 .hseq__track { display: grid; gap: 24px; }                   /* without motion: a normal vertical list */
 ```
 ```js
-mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
+gsap.matchMedia().add('(min-width: 900px)', () => {   // inside `if (on)` (recipe 0)
   const sec = document.querySelector('.hseq'), track = sec.querySelector('.hseq__track');
   const size = () => { sec.style.height = `${track.scrollWidth - innerWidth + innerHeight}px`; };
   size(); addEventListener('resize', size);
@@ -136,7 +155,7 @@ Set `--i` per card inline. Works as a plain list when sticky is not supported.
 .marquee { overflow: hidden; }
 .marquee__track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
 @keyframes marquee { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+html:not(.motion) .marquee__track { animation: none; }
 ```
 ```js
 const run = document.querySelector('.marquee__track').getAnimations()[0];
@@ -186,13 +205,13 @@ Keep the native cursor; the follower adds, never replaces.
 
 ## 10. View Transitions between states or pages
 ```js
-const swap = (update) => (document.startViewTransition && matchMedia('(prefers-reduced-motion: no-preference)').matches)
+const swap = (update) => (document.startViewTransition && document.documentElement.classList.contains('motion'))
   ? document.startViewTransition(update) : update();
 ```
 ```css
 @view-transition { navigation: auto; }                        /* cross-page, same origin, where supported */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .4s; }
-@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+:root:not(.motion)::view-transition-group(*), :root:not(.motion)::view-transition-old(*), :root:not(.motion)::view-transition-new(*) { animation: none !important; }
 ```
 Browsers without support simply change the page.
 
@@ -227,7 +246,7 @@ The scene's poster image (first frame) shows without motion. Encoding the frames
 ```js
 const stage = document.querySelector('[data-webgl]');
 const ok = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })()
-  && !navigator.connection?.saveData && matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  && !navigator.connection?.saveData && document.documentElement.classList.contains('motion');
 if (ok) {
   const io = new IntersectionObserver(async ([e]) => { if (!e.isIntersecting) return; io.disconnect();
     const { start } = await import('./scene.js'); start(stage.querySelector('canvas')); }, { rootMargin: '700px' });
@@ -261,7 +280,7 @@ A poster image sits behind the canvas and stays when WebGL is off; add a pause b
 ```css
 .ring { animation: spin 24s linear infinite; }
 @keyframes spin { to { transform: rotate(1turn); } }
-@media (prefers-reduced-motion: reduce) { .ring { animation: none; } }
+html:not(.motion) .ring { animation: none; }
 ```
 Only true, supplied words go on the ring.
 

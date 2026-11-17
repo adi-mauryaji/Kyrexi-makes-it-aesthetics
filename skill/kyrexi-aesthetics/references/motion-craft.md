@@ -37,6 +37,8 @@ One idea that expresses the concept and that the page is remembered for, plus qu
 ## 5. Reduced motion and fallbacks
 Under `prefers-reduced-motion: reduce`: no smooth scrolling, no scrubbed or pinned movement (show the end state), no parallax, no autoplay loops; keep instant state changes and opacity fades under 200 ms. Without JavaScript or WebGL: every section shows its final, readable state. Provide a visible pause control for any loop longer than 5 s.
 
+**Motion switch (Studio level).** Many people get "reduce" without asking for it: on Linux, Chrome reports it whenever GNOME animations are off, a common setting on slow laptops. A Studio page then stands still except for pointer-driven effects, and the person reviewing it may think the motion is broken. So the device's setting decides first, and the visitor can change it: when the device asks for less motion, show one quiet line near the first screen ("Motion is off because your device asks for less motion. Turn it on"), and put a "Motion: on/off" button in the footer for everyone. Remember the choice in `localStorage`; never turn motion on without the visitor's click. Code: `references/recipes.md` recipe 0.
+
 ## 6. Check it (step 6)
 Run `node scripts/verify.mjs <page> --out <dir> --motion`. Read `motion-sheet.png` (intro frames at 0.25–3 s and a scroll film-strip at desktop and phone width) and the `motion` line and warnings: frames over 33 ms on a 4× slower CPU, long animation frames, layout properties animated, scroll-linked elements, headline visibility time, and motion that ignores reduced motion. The person reviewing opens `motion/motion.html` to play the frames. Score the motion gate in `art-direction.md` section 6.
 

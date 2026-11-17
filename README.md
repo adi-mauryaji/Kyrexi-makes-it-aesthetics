@@ -56,13 +56,13 @@ Ask in plain words; the skill starts when the request is about designing or buil
 
 > Redesign my photography portfolio. I like these sites: … Keep it fast.
 
-It will show you the audience profile and three directions before building, unless you ask it not to stop. You get the page plus `design/blueprint.md` (every decision with its reason), `design/asset-brief.md` (photos and video to commission), the list of facts it still needs from you, and the checks it ran.
+It stops for you at most three times, each with a default you can accept: once at the start (your idea and the assets you have, or "go ahead"), to choose one of three directions, and to decide how the photos and video will come. You get the page plus `design/blueprint.md` (every decision with its reason), `design/asset-brief.md` (a brief your photographer or videographer can work from), the list of facts it still needs from you, and the checks it ran.
 
 ## How it works
 
-1. **Intake:** audience profile and the facts the page may use.
+1. **Intake:** reads your project first, asks once about your idea and assets, then writes the audience profile and the facts the page may use.
 2. **Art direction:** taste memory, level (Clean or Studio), feeling brief, three directions, your choice, visual language.
-3. **Asset brief** for the photos, video or 3D the page needs.
+3. **Asset plan,** right after your choice: the photos, video or 3D the chosen design needs, slot by slot, as a brief for your photographer or videographer, or as copy-ready prompts if you use an image or video tool. The build does not wait for them.
 4. **Blueprint:** tokens, layout, motion, and a decision ledger tied to graded evidence.
 5. **Build** at full craft, with finished-looking stand-ins until real assets arrive.
 6. **Visual review:** award score, visual gate and motion gate, up to three rounds.
@@ -82,7 +82,7 @@ A lean panel of role cards (lead designer, devil's advocate, accessibility, ethi
 
 ## Status
 
-Version 0.2.0. The skill has been used on concept sites during development; feedback and issues are welcome, especially screenshots of what it made for you and what it got wrong.
+Version 0.2.1. The skill has been used on concept sites during development; feedback and issues are welcome, especially screenshots of what it made for you and what it got wrong.
 
 ## License
 
